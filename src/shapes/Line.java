@@ -1,6 +1,4 @@
-/** use string.split, call super in first line
- * 
- */
+
 package shapes;
 
 import java.awt.Color;
