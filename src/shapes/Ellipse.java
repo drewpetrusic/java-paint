@@ -1,16 +1,10 @@
-/**
- * 
- */
+
 package shapes;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D.Double;
 import java.util.Scanner;
 
-/**
- * @author dap9697
- *
- */
 public class Ellipse extends Double {
 
 	private static final long serialVersionUID = 1L;
