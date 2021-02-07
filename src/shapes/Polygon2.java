@@ -8,9 +8,6 @@ import java.util.Scanner;
 
 public class Polygon2 extends Polygon {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Color c;
 	private boolean fill;
@@ -19,18 +16,18 @@ public class Polygon2 extends Polygon {
 		var p = new Polygon2("filledpolygon,3,2,2,3,3,4,4,5,5");
 		System.out.println(p.toString());
 	}
-	
+
 	public static Polygon2 create(boolean fill, Color c, int... points) {
-        StringBuilder sb = new StringBuilder(fill ? "filledPolygon," : "polygon,");
-        sb.append(c.getRGB());
-        Arrays.asList(points).forEach(p -> sb.append(",").append(p));
-        return new Polygon2(sb.toString());
-    }
+		StringBuilder sb = new StringBuilder(fill ? "filledPolygon," : "polygon,");
+		sb.append(c.getRGB());
+		Arrays.asList(points).forEach(p -> sb.append(",").append(p));
+		return new Polygon2(sb.toString());
+	}
 
 	public Polygon2(String line) {
 		Scanner sc = new Scanner(line.strip());
 		sc.useDelimiter(",\\s*");
-		String type = sc.next(); // will grab the first token off the string (filled circle / circle)
+		String type = sc.next();
 		this.fill = type.equalsIgnoreCase("filledPolygon");
 		this.c = new Color(Integer.parseInt(sc.next()));
 
@@ -59,10 +56,11 @@ public class Polygon2 extends Polygon {
 
 		this.xpoints = xPoints;
 		this.ypoints = yPoints;
-		this.npoints = xPoints.length > yPoints.length ? xPoints.length : yPoints.length; //npoints is valid number of points
-		
+		this.npoints = xPoints.length > yPoints.length ? xPoints.length : yPoints.length; // npoints is valid number of
+																							// points
+
 	}
-	
+
 	public Color getDrawColor() {
 		return c;
 	}
