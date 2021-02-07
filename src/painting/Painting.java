@@ -1,18 +1,7 @@
-/**
- * 
- */
-package painting;
-//drawinng polygon :
 
-// polygon, -256, 10, 20 ,50, 100, 50, 20   color last
-// super parent needs :  newPolygon(xlit,ylist,npts) better way : Super(xlist,ylist,npts)  this.c=c   this.still=still  (put in main and test  ----hw3 part3)
+package painting;
 
 import java.awt.BasicStroke;
-
-//hw4 : how do we collect a polygon in hw4   , we need an array of xlist (xints) and ylist (of yints) and we will build the polygon using 
-// the clicks  (accumilate arraylist for each click) , instantiate when you hit "enter" and shapetype,xlist,ylist,fill,color all have data and not null.
-//
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,11 +11,9 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-
 import shapes.Curve;
 import shapes.Ellipse;
 import shapes.Line;
@@ -37,7 +24,7 @@ import shapes.RoundRectangle;
 public class Painting extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	// making a private field
+
 	private Grid grid;
 	private ArrayList<Shape> shapes;
 	private RoundRectangle2D.Double selectRectangle;
@@ -57,10 +44,10 @@ public class Painting extends JComponent {
 
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		grid.display(g2); // grid.display(g2); default
+		grid.display(g2);
 
 		for (Shape shape : shapes) {
-			
+
 			if (shape instanceof Line) {
 				var line = (Line) shape;
 				g2.setColor(line.getDrawColor());
@@ -86,8 +73,8 @@ public class Painting extends JComponent {
 					g2.draw(rectangle);
 				}
 			}
-			
-			if(shape instanceof RoundRectangle) {
+
+			if (shape instanceof RoundRectangle) {
 				var roundrectangle = (RoundRectangle) shape;
 				g2.setColor(roundrectangle.getDrawColor());
 				if (roundrectangle.isFill()) {
@@ -96,8 +83,8 @@ public class Painting extends JComponent {
 					g2.draw(roundrectangle);
 				}
 			}
-			
-			if(shape instanceof Polygon2) {
+
+			if (shape instanceof Polygon2) {
 				var polygon = (Polygon2) shape;
 				g2.setColor(polygon.getDrawColor());
 				if (polygon.isFill()) {
@@ -106,13 +93,13 @@ public class Painting extends JComponent {
 					g2.draw(polygon);
 				}
 			}
-			
+
 			if (shape instanceof Curve) {
 				var curve = (Curve) shape;
 				g2.setColor(curve.getDrawColor());
 				g2.draw(curve);
 			}
-			
+
 			if (selectRectangle != null) {
 				// draw RoundRectangle2D.Double
 				g2.setStroke(dashed);
@@ -125,7 +112,7 @@ public class Painting extends JComponent {
 
 	public static void main(String[] args) {
 		Painting canvas = new Painting(800, 800);
-		String name = canvas.loadPainting(); // returns string thats saved as name
+		String name = canvas.loadPainting();
 
 		// JFRAME
 		JFrame frame = new JFrame();
@@ -137,15 +124,14 @@ public class Painting extends JComponent {
 		frame.setVisible(true);
 	}
 
-	public String loadPainting() {	//--------------------WAS private----------------//
+	public String loadPainting() {
 		Scanner sc = null; //
 		String name = "no file found - running demo string ";
 		String defaultDrawing = "circle, 175, 600, 30, 30, -65536\n" + "filledCircle, 290, 520, 40, 40, -256\n"
 				+ "circle, 375, 425, 47, 47, -16711936\n" + "filledCircle, 475, 325, 48, 48, -16776961\n"
 				+ "circle, 550, 225, 47, 47, -256\n" + "filledCircle, 625, 100, 48, 48, -65536\n"
 				+ "50, 50, 587, 100, -13421569\n" + "50, 200, 587, 100, -13421569\n"
-				+ "roundRectangle, 407, 247, 144, 109, 20, 20, -13369345\n"
-				+ "rectangle, 277, 29, 70, 36, -13369345\n"
+				+ "roundRectangle, 407, 247, 144, 109, 20, 20, -13369345\n" + "rectangle, 277, 29, 70, 36, -13369345\n"
 				+ "filledRectangle, 125, 100, 48, 48, -65536\n"
 				+ "polygon, -256, 250, 250, 200, 300, 250, 350, 300, 300\n"
 				+ "filledPolygon, -256, 250, 250, 200, 300, 250, 350, 300, 300\n"
@@ -155,31 +141,31 @@ public class Painting extends JComponent {
 				+ "171,162,171,162,172,162,173,163,174,163,175,163,175,163,176,163,177,163,177,162,177,160,177,158,177,156,177,154,177,153,177,152,177,151\n";
 
 		if (shapes == null)
-			shapes = new ArrayList<Shape>(); // making array list of shapes
-		JFileChooser jfc = new JFileChooser("."); // Part 2: 1-C passing default directory through a string
-		int choice = jfc.showOpenDialog(null); // gives open file dialogue
+			shapes = new ArrayList<Shape>();
+		JFileChooser jfc = new JFileChooser(".");
+		int choice = jfc.showOpenDialog(null);
 		try {
 			if (choice == JFileChooser.APPROVE_OPTION) {
-				name = jfc.getSelectedFile().getName(); // wanting the name of the file in the title bar
+				name = jfc.getSelectedFile().getName();
 				if (grid.isVisible())
-					grid.toggleGrid(); // toggling grid
-				sc = new Scanner(jfc.getSelectedFile()); // passing file to get ready to be parsed
+					grid.toggleGrid();
+				sc = new Scanner(jfc.getSelectedFile());
 			} else {
 				sc = new Scanner(defaultDrawing);
 			}
 
-		} catch (FileNotFoundException e) { // part 2:1-d
-			sc = new Scanner(defaultDrawing); // either case to get default drawing name if the try failed
-			e.printStackTrace(); // error here can be ignored
+		} catch (FileNotFoundException e) {
+			sc = new Scanner(defaultDrawing);
+			e.printStackTrace();
 		} finally {
 			while (sc.hasNextLine()) {
-				String line = sc.nextLine(); // grabbing line and storing it in a local variable
-				if (line.length() > 1) { // checking if line is empty
-					String type = line.substring(0, line.indexOf(',')).strip(); // gives me the type of shape or number ----.strip(); at end
+				String line = sc.nextLine();
+				if (line.length() > 1) {
+					String type = line.substring(0, line.indexOf(',')).strip();
 					switch (type) {
-					case "filledCircle": // matching the string to the case
+					case "filledCircle":
 					case "circle":
-						shapes.add(new Ellipse(line)); // passing if its a filledCircle or circle
+						shapes.add(new Ellipse(line));
 						break;
 					case "filledRectangle":
 					case "rectangle":
@@ -189,22 +175,22 @@ public class Painting extends JComponent {
 					case "polygon":
 						shapes.add(new Polygon2(line));
 						break;
-					case "curve": 
-						shapes.add(new Curve(line)); 
+					case "curve":
+						shapes.add(new Curve(line));
 						break;
 					case "roundRectangle":
 					case "filledRoundRectangle":
 						shapes.add(new RoundRectangle(line));
 						break;
 					default:
-						shapes.add(new Line(line)); // if none of the strings match
+						shapes.add(new Line(line));
 						break;
 					}
 				}
 			}
-			sc.close(); // closing the scanner after the finally block
+			sc.close();
 		}
-		return name; // finished Part 2 :1
+		return name;
 	}
 
 	public void removeSelectRectangle() {
