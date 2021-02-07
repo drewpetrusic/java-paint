@@ -67,11 +67,10 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 		setLayout(new BorderLayout());
 		shapes = new ArrayList<Shape>();
 		color = Color.black;
-		shapeType = ""; // added for line-------------could be shapeType =
-						// "Line";---------------------------------
+		shapeType = "";
 		canvas = new Painting(1200, 800, shapes);
 		SwingUtilities.updateComponentTreeUI(canvas);
-		canvas.addMouseListener(new MyMouseListener()); // adding a mouse listener to the canvas
+		canvas.addMouseListener(new MyMouseListener());
 		canvas.addMouseMotionListener(new MyMouseMotionListener());
 		canvas.addKeyListener(new MyKeyListener());
 		add("Center", canvas);
@@ -94,7 +93,7 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 		JMenuItem menuItem;
 		JCheckBoxMenuItem cbMenuItem;
 		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic(KeyEvent.VK_F); // mnemonics use ALT_MASK
+		fileMenu.setMnemonic(KeyEvent.VK_F);
 
 		String[] commands = { "Open", "Save", "Save As..", "Clear Screen" };
 		int[] keyEvents = { KeyEvent.VK_O, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_C };
@@ -108,7 +107,7 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 		menuBar.add(fileMenu);
 
 		JMenu drawMenu = new JMenu("Draw");
-		fileMenu.setMnemonic(KeyEvent.VK_D); // mnemonics use ALT_MASK
+		fileMenu.setMnemonic(KeyEvent.VK_D);
 		cbMenuItem = new JCheckBoxMenuItem("Grid", true);
 		cbMenuItem.addItemListener(this);
 		cbMenuItem.setAccelerator(KeyStroke.getKeyStroke('g'));
@@ -127,8 +126,9 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 		menuItem.addActionListener(this);
 		drawMenu.add(menuItem);
 
-		String[] cmds = { "Line", "Ellipse", "Rectangle" }; //added round rectangle as "VK_T"
-		int[] drawKeyEvents = { KeyEvent.VK_L, KeyEvent.VK_C, KeyEvent.VK_E, KeyEvent.VK_R, KeyEvent.VK_T , KeyEvent.VK_P };
+		String[] cmds = { "Line", "Ellipse", "Rectangle" };
+		int[] drawKeyEvents = { KeyEvent.VK_L, KeyEvent.VK_C, KeyEvent.VK_E, KeyEvent.VK_R, KeyEvent.VK_T,
+				KeyEvent.VK_P };
 		for (int i = 0; i < cmds.length; i++) {
 			menuItem = new JMenuItem(cmds[i]);
 			menuItem.setAccelerator(KeyStroke.getKeyStroke(drawKeyEvents[i], ActionEvent.CTRL_MASK));
@@ -274,13 +274,13 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 		}
 
 	}
-	
+
 	class MyKeyListener implements KeyListener {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -297,9 +297,9 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
 
 	// Inner listener classes
@@ -313,7 +313,7 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 			mouseStates[0].setBackground(Color.yellow);
 			x = e.getX();
 			y = e.getY();
-			
+
 			if (shapeType.equalsIgnoreCase("curve")) {
 				drawingCurve = new Curve(x, y, color);
 			}
@@ -364,31 +364,8 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 			case "Rectangle":
 				shapes.add(new Rectangle(x, y, x1, y1, color, fill));
 				break;
-			case "Round Rectangle"://-----------------------------------------------------------------------------------
-//				shapes.add(new RoundRectangle(x, y, x1, y1, arcwidth, archeight, color, fill)); //------- having issues with arcwidth && archeight
-//			case "Polygon":
-//				if (this.clickList.size() == 0) {
-//					this.polygonListener = true;
-//				}
-//
-//				if (this.polygonListener) {
-//					clickList.add(new MouseClickPoint(e.getX(), e.getY()));
-//
-//					if (this.clickList.get(0).fuzzyEquals(e.getX(), e.getY(), 5)) {
-//						this.polygonListener = false;
-//						int[] points = new int[this.clickList.size() * 2];
-//
-//						for (int i = 0; i < points.length;) {
-//							points[i] = this.clickList.get(i).getX();
-//							points[i + 1] = this.clickList.get(i + 1).getY();
-//							i = i + 2;
-//						}
-//
-//						shapes.add(Polygon2.create(fill, color, points));
-//					}
-//				}
-//
-//				break;
+			case "Round Rectangle":
+				break;
 			}
 			repaint();
 		}
@@ -400,14 +377,14 @@ public class CreativeCanvas extends JFrame implements ActionListener, ItemListen
 			mouseStates[5].setBackground(Color.yellow);
 			mouseStates[6].setText("X: " + e.getX());
 			mouseStates[7].setText("Y: " + e.getY());
-			
+
 			switch (shapeType) {
 			case "Curve":
 				drawingCurve.lineTo(e.getX(), e.getY());
 				repaint();
 				break;
 			case "Select":
-				selectRectangle = new Rectangle(x,y,e.getX(),e.getY(), color);
+				selectRectangle = new Rectangle(x, y, e.getX(), e.getY(), color);
 				repaint();
 				break;
 			}
